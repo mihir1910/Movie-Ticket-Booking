@@ -1,2 +1,9 @@
 /venv
 .env
+__pycache__
+*.pyc
+server/node_modules
+server/package.json
+server/package-lock.json
+server/dbConfig.js
+server/index.js
