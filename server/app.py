@@ -2,10 +2,12 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 import dbConfig
+from routes.user_routes import router as user_router
 
 load_dotenv()
 
 app = FastAPI()
+app.include_router(user_router, prefix="/api/auth")
 
 
 @app.on_event("startup")
