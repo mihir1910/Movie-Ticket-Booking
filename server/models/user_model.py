@@ -17,3 +17,8 @@ class User(BaseModel):
     role: Role = Role.user
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
