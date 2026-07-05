@@ -1,8 +1,12 @@
+import os
+
 import bcrypt
-from fastapi import APIRouter
+import jwt
+from fastapi import APIRouter, Depends, Response
 from fastapi.responses import JSONResponse
 
 import dbConfig
+from middlewares.authMiddleware import is_auth
 from models.user_model import LoginRequest, User
 
 router = APIRouter()
@@ -36,7 +40,7 @@ async def register(user: User):
         return JSONResponse(status_code=500, content={"message": str(error)})
     
 @router.post("/login")
-async def login(credentials: LoginRequest):
+async def login(credentials: LoginRequest, response: Response):
     try:
         user_data = await dbConfig.db["users"].find_one({"email": credentials.email})
         if not user_data:
@@ -53,6 +57,9 @@ async def login(credentials: LoginRequest):
 
         user_data["id"] = str(user_data.pop("_id"))
 
+        token = jwt.encode({"userId": user_data["id"]}, os.environ["JWT_SECRET"], algorithm="HS256")
+        response.set_cookie("jwtToken", token, httponly=True)
+
         return {
             "success": True,
             "message": "User Logged In Successfully",
@@ -60,3 +67,8 @@ async def login(credentials: LoginRequest):
         }
     except Exception as error:
         return JSONResponse(status_code=500, content={"message": str(error)})
+
+
+@router.get("/current-user")
+async def current_user(user_id: str = Depends(is_auth)):
+    return {"userId": user_id}
