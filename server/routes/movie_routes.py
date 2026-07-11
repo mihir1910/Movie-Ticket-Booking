@@ -2,44 +2,16 @@ from bson import ObjectId
 from fastapi import APIRouter
 
 import dbConfig
-from models.movie_model import Movie
+from controllers.movie_controllers import add_movie, update_movie
 
 router = APIRouter()
 
 
 # Add a Movie
-@router.post("/add-movie")
-async def add_movie(movie: Movie):
-    try:
-        await dbConfig.db["movies"].insert_one(movie.model_dump())
-        return {
-            "success": True,
-            "message": "New movie has been added!",
-        }
-    except Exception:
-        return {
-            "success": False,
-            "message": "Movie Could not be added",
-        }
-
+router.post("/add-movie")(add_movie)
 
 # update movie
-@router.put("/update-movie/{movie_id}")
-async def update_movie(movie_id: str, movie: dict):
-    try:
-        await dbConfig.db["movies"].update_one({"_id": ObjectId(movie_id)}, {"$set": movie})
-        updated_movie = await dbConfig.db["movies"].find_one({"_id": ObjectId(movie_id)})
-        updated_movie["id"] = str(updated_movie.pop("_id"))
-        return {
-            "success": True,
-            "message": "The movie has been updated!",
-            "data": updated_movie,
-        }
-    except Exception:
-        return {
-            "success": False,
-            "message": "Server Error",
-        }
+router.put("/update-movie/{movie_id}")(update_movie)
 
 
 # Delete Movie
