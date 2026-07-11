@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import dbConfig
 from routes.user_routes import router as user_router
+from routes.movie_routes import router as movie_router
 
 load_dotenv()
 
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(user_router, prefix="/api/auth")
+app.include_router(movie_router, prefix="/api/movie")
 
 
 @app.on_event("startup")
