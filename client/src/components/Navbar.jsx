@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../calls/authCalls';
 import { setUserData } from '../redux/userSlice';
+import { Link } from 'react-router-dom';
 import { Layout, Input, Button, Avatar, Typography, Space } from 'antd';
 import { UserOutlined, LogoutOutlined, SearchOutlined } from '@ant-design/icons';
 import { getAllMovies } from '../calls/movieCalls';
@@ -10,7 +11,7 @@ import { useState } from 'react';
 const { Header } = Layout;
 const { Text } = Typography;
 
-function Home() {
+function NavBar() {
 
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -19,7 +20,6 @@ function Home() {
     (async () => {
       const user = await getCurrentUser();
       const movies = await getAllMovies();
-       setMovies(movies.data)
       dispatch(setUserData(user || null));
     })();
   }, []);
@@ -55,7 +55,7 @@ function Home() {
         {/* User Info + Logout */}
         <Space>
           <Avatar icon={<UserOutlined />} />
-          <Text>{displayName}</Text>
+          <Link to='/admin'>{displayName}</Link>
           <Button icon={<LogoutOutlined />} onClick={onLogout} type="default">
             Logout
           </Button>
@@ -69,4 +69,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default NavBar;
