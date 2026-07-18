@@ -18,9 +18,10 @@ async def add_movie(movie: Movie):
         }
 
 
-async def update_movie(movie_id: str, movie: dict):
+async def update_movie(payload: dict):
     try:
-        await dbConfig.db["movies"].update_one({"_id": ObjectId(movie_id)}, {"$set": movie})
+        movie_id = payload.pop("movieId")
+        await dbConfig.db["movies"].update_one({"_id": ObjectId(movie_id)}, {"$set": payload})
         updated_movie = await dbConfig.db["movies"].find_one({"_id": ObjectId(movie_id)})
         updated_movie["id"] = str(updated_movie.pop("_id"))
         return {

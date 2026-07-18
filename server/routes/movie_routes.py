@@ -11,7 +11,7 @@ router = APIRouter()
 router.post("/add-movie")(add_movie)
 
 # update movie
-router.put("/update-movie/{movie_id}")(update_movie)
+router.put("/update-movie")(update_movie)
 
 
 # Delete Movie
