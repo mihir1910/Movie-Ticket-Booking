@@ -2,6 +2,7 @@ import os
 
 import bcrypt
 import jwt
+from bson import ObjectId
 from fastapi import APIRouter, Depends, Response
 from fastapi.responses import JSONResponse
 
@@ -71,4 +72,12 @@ async def login(credentials: LoginRequest, response: Response):
 
 @router.get("/current-user")
 async def current_user(user_id: str = Depends(is_auth)):
-    return {"userId": user_id}
+    user_data = await dbConfig.db["users"].find_one({"_id": ObjectId(user_id)})
+    user_data["id"] = str(user_data.pop("_id"))
+    user_data.pop("password", None)
+
+    return {
+        "success": True,
+        "message": "Current user fetched successfully",
+        "user": user_data,
+    }
