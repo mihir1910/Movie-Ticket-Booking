@@ -18,9 +18,9 @@ function NavBar() {
 
   useEffect(() => {
     (async () => {
-      const user = await getCurrentUser();
+      const response = await getCurrentUser();
       const movies = await getAllMovies();
-      dispatch(setUserData(user || null));
+      dispatch(setUserData(response?.user || null));
     })();
   }, []);
 
@@ -55,7 +55,7 @@ function NavBar() {
         {/* User Info + Logout */}
         <Space>
           <Avatar icon={<UserOutlined />} />
-          <Link to='/admin'>{displayName}</Link>
+          <Link to='/admin' style={{ color: '#000', fontWeight: 'bold' }}>{displayName}</Link>
           <Button icon={<LogoutOutlined />} onClick={onLogout} type="default">
             Logout
           </Button>
