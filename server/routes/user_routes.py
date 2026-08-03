@@ -30,7 +30,7 @@ async def register(user: User):
 
         result = await dbConfig.db["users"].insert_one(user.model_dump())
         new_user = await dbConfig.db["users"].find_one({"_id": result.inserted_id})
-        new_user["id"] = str(new_user.pop("_id"))
+        new_user["_id"] = str(new_user["_id"])
 
         return {
             "success": True,
@@ -56,10 +56,10 @@ async def login(credentials: LoginRequest, response: Response):
                 "message": "Invalid password, Please try again",
             }
 
-        user_data["id"] = str(user_data.pop("_id"))
+        user_data["_id"] = str(user_data["_id"])
 
-        token = jwt.encode({"userId": user_data["id"]}, os.environ["JWT_SECRET"], algorithm="HS256")
-        response.set_cookie("jwtToken", token, httponly=True)
+        token = jwt.encode({"userId": user_data["_id"]}, os.environ["JWT_SECRET"], algorithm="HS256")
+        response.set_cookie("jwtToken", token, httponly=True, samesite="none", secure=True)
 
         return {
             "success": True,
@@ -73,7 +73,7 @@ async def login(credentials: LoginRequest, response: Response):
 @router.get("/current-user")
 async def current_user(user_id: str = Depends(is_auth)):
     user_data = await dbConfig.db["users"].find_one({"_id": ObjectId(user_id)})
-    user_data["id"] = str(user_data.pop("_id"))
+    user_data["_id"] = str(user_data["_id"])
     user_data.pop("password", None)
 
     return {

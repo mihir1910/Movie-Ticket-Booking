@@ -11,8 +11,9 @@ async def add_movie(movie: Movie):
             "success": True,
             "message": "New movie has been added!",
         }
-    except Exception:
+    except Exception as error:
         return {
+            "error": str(error),
             "success": False,
             "message": "Movie Could not be added",
         }

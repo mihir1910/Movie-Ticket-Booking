@@ -7,3 +7,11 @@ server/package.json
 server/package-lock.json
 server/dbConfig.js
 server/index.js
+server/controllers/movie.controllers.js
+server/middlewares/authMiddleware.js
+server/models/movie.model.js
+server/models/user.model.js
+server/routes/movie.route.js
+server/routes/user.routes.js
+server/models/theatre.model.js
+server/routes/theatre.route.js

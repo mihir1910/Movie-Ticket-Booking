@@ -55,7 +55,7 @@ function NavBar() {
         {/* User Info + Logout */}
         <Space>
           <Avatar icon={<UserOutlined />} />
-          <Link to='/admin' style={{ color: '#000', fontWeight: 'bold' }}>{displayName}</Link>
+          <Link to={userData?.role=='partner'? "/partner" : '/admin'}>{displayName}</Link>
           <Button icon={<LogoutOutlined />} onClick={onLogout} type="default">
             Logout
           </Button>
