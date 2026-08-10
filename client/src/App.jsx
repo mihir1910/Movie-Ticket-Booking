@@ -8,6 +8,7 @@ import PublicRoute from './components/PublicRoute'
 import Admin from './pages/Admin'
 import Partner from './pages/Partner'
 import SingleMovie from './pages/SingleMovie'
+import BookShow from './pages/BookShow'
 
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
         <Route path='/register' element={<PublicRoute><Register/></PublicRoute>}/>
         <Route path='/admin' element={<Admin/>}></Route>
         <Route path='/partner' element={<Partner/>}></Route>
-        <Route path='/singleMovie/:id' element={<SingleMovie/>}></Route>
-      </Routes>
+        <Route path='/singleMovie/:id/' element={<SingleMovie/>}></Route>   
+        <Route path='/bookshow/:id' element={<BookShow/>}></Route>
+        </Routes>
     </Router>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, Table, Form, Row, Col, Input, Select , message } from "antd";
+import moment from "moment";
 import {
   ArrowLeftOutlined,
   EditOutlined,
@@ -36,8 +37,7 @@ console.log(selectedTheatre._id)
        }
 
        else{
-        console.log(all)
-       }
+        message.error(allShowsResponse.message);       }
         
     } catch (error) {
         message.error(error.message);
@@ -67,6 +67,9 @@ console.log(selectedTheatre._id)
     {
       title: "Show Date",
       dataIndex: "date",
+      render: (text, data) => {
+        return moment(data.date).format("DD-MM-YYYY");
+      },
     },
     {
       title: "Show Time",
