@@ -59,7 +59,14 @@ async def login(credentials: LoginRequest, response: Response):
         user_data["_id"] = str(user_data["_id"])
 
         token = jwt.encode({"userId": user_data["_id"]}, os.environ["JWT_SECRET"], algorithm="HS256")
-        response.set_cookie("jwtToken", token, httponly=True, samesite="none", secure=True)
+        is_prod = os.environ.get("ENV") == "production"
+        response.set_cookie(
+            "jwtToken",
+            token,
+            httponly=True,
+            samesite="none" if is_prod else "lax",
+            secure=is_prod,
+        )
 
         return {
             "success": True,

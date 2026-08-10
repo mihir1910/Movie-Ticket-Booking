@@ -23,7 +23,7 @@ app.add_middleware(
 app.include_router(user_router, prefix="/api/auth")
 app.include_router(movie_router, prefix="/api/movie")
 app.include_router(theatre_router, prefix="/api/theatre")
-app.include_router(show_router, prefix="/api/show")
+app.include_router(show_router, prefix="/api/shows")
 
 
 @app.on_event("startup")

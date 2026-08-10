@@ -50,8 +50,9 @@ const TheatreListPartner = () => {
 
    useEffect(() => {
       (async () => {
-        const user = await getCurrentUser();
-         dispatch(setUserData(user || null));
+        const response = await getCurrentUser();
+        const user = response?.user || null;
+        dispatch(setUserData(user));
         if (user && user._id) {
           getData(user._id);
         }
