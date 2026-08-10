@@ -28,11 +28,11 @@ console.log(selectedTheatre._id)
         else{
             message.error(movieResponse.error);
         }
-        const allShowsResponse =  await getShows()
+      const allShowsResponse =  await getShows({theatreId : selectedTheatre._id})
+       if(allShowsResponse.success){
         console.log(allShowsResponse.data)
         setShows(allShowsResponse.data)
-       if(allShowsResponse.success){
-         console.log(allShowsResponse)
+        console.log(allShowsResponse)
        }
 
        else{

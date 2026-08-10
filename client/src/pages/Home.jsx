@@ -3,9 +3,11 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { getAllMovies } from "../calls/movieCalls";
 import MovieCard from "../components/MovieCard";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [movies, setMovies] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     (async () => {
@@ -36,6 +38,7 @@ function Home() {
               language={movieObj.language}
               rating={movieObj.ratings}
               genre={movieObj.genre}
+              onClick = {()=>navigate(`/singleMovie/${movieObj._id}`)}
             />
           ))}
       </div>

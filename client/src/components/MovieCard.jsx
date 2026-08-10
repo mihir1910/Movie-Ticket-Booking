@@ -4,11 +4,12 @@ import { Card, Typography, Rate, Tag } from "antd";
 
 const { Title, Text } = Typography;
 
-function MovieCard({ title, posterUrl, rating, genre, language }) {
-  return (
+function MovieCard({ title, posterUrl, rating, genre, language , onClick }) {
+    return (
     <Card
       hoverable
       style={{ width: 200, borderRadius: 10, overflow: "hidden" }}
+      onClick={onClick}
       cover={
         <img
           src={posterUrl}
