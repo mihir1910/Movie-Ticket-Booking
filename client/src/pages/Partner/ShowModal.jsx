@@ -8,11 +8,11 @@ import {
 import { getAllMovies } from "../../calls/movieCalls";
 import { addShow, getShows } from "../../calls/showCalls";
 
-const ShowModal = ({ isShowModalOpen, setIsShowModalOpen }) => {
-
+const ShowModal = ({ isShowModalOpen, setIsShowModalOpen , selectedTheatre }) => {
 const [view, setView] = useState("table");
 const [movies , setMovies] = useState([])
 const [shows , setShows] = useState([])
+console.log(selectedTheatre._id)
 
   function handleCancel() {
     setIsShowModalOpen(false);
@@ -29,6 +29,7 @@ const [shows , setShows] = useState([])
             message.error(movieResponse.error);
         }
         const allShowsResponse =  await getShows()
+        console.log(allShowsResponse.data)
         setShows(allShowsResponse.data)
        if(allShowsResponse.success){
          console.log(allShowsResponse)
@@ -44,8 +45,8 @@ const [shows , setShows] = useState([])
   }
   const onFinish = async(values)=>{
       try {
-         const response = await addShow(values)
-         console.log(response)
+          const response = await addShow({ ...values, theatre: selectedTheatre._id })       
+          console.log(response)
          if(response.sucess){
             message.success(response.message);
             setView('table')
@@ -81,6 +82,10 @@ const [shows , setShows] = useState([])
 
     {
       title: "Theatre",
+      dataIndex: "movie",
+      render : (text , data)=>{
+      return data.theatre.name
+     }
     },
 
     {
