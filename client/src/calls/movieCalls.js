@@ -41,3 +41,12 @@ export const getSingleMovie = async(id)=>{
         console.log(error)
     }
 }
+
+export const deleteMovie = async(id)=>{
+    try {
+       const response = await api.delete(`/api/movie/delete-movie/${id}`)
+       return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

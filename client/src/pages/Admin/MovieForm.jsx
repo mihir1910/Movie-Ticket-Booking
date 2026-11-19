@@ -19,7 +19,7 @@ function MovieForm({ isModalOpen, setIsModalOpen, formType , selectedMovie , set
       }
     }else{
         try {
-        const respone = await updateMovie({...values , movieId:selectedMovie._id});
+        const respone = await updateMovie({...values , movieId:selectedMovie.id});
     
         console.log(respone);
         if (respone.success) {

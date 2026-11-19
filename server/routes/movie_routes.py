@@ -25,10 +25,10 @@ async def delete_movie(movie_id: str):
             "message": "The movie has been updated!",
             "data": movie,
         }
-    except Exception:
+    except Exception as error:
         return {
             "success": False,
-            "message": "Server Error",
+            "message": str(error),
         }
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllMovies } from "../../calls/movieCalls";
-import { Table, Button } from "antd";
+import { getAllMovies, deleteMovie } from "../../calls/movieCalls";
+import { Table, Button, message } from "antd";
 import moment from "moment";
 import MovieForm from "./MovieForm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -25,6 +25,21 @@ function MovieList() {
   useEffect(() => {
     getMovies();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteMovie(id);
+      if (response && response.success) {
+        message.success(response.message);
+        getMovies();
+      } else {
+        message.error(response?.message || "Failed to delete movie");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Failed to delete movie");
+    }
+  };
 
   const tableHeadings = [
     {
@@ -93,7 +108,7 @@ function MovieList() {
             >
               <EditOutlined />
             </Button>
-            <Button>
+            <Button onClick={() => handleDelete(data.id)}>
               <DeleteOutlined />
             </Button>
           </div>

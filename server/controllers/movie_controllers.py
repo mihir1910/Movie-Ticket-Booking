@@ -30,8 +30,8 @@ async def update_movie(payload: dict):
             "message": "The movie has been updated!",
             "data": updated_movie,
         }
-    except Exception:
+    except Exception as error:
         return {
             "success": False,
-            "message": "Server Error",
+            "message": str(error),
         }
