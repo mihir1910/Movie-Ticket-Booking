@@ -83,7 +83,7 @@ You also need a free **MongoDB Atlas** account: https://cloud.mongodb.com
 Check that they are installed:
 
 ```bash
-python3 --version     # Windows: python --version
+python3 --version     # Windows (cmd / PowerShell / Git Bash): python --version
 node --version
 npm --version
 git --version
@@ -178,6 +178,24 @@ cd server
 python app.py
 ```
 
+### Windows: Git Bash
+
+Git Bash comes with Git for Windows. It uses Linux-style commands, but on Windows the venv's activate script is in `venv/Scripts/`, not `venv/bin/`.
+
+```bash
+# first time only
+python -m venv venv
+source venv/Scripts/activate
+pip install -r server/requirements.txt
+
+# every time
+source venv/Scripts/activate
+cd server
+python app.py
+```
+
+> **Git Bash shows no output after `python app.py`?** Git Bash sometimes holds Python's output back. Run `python -u app.py` instead to print it right away.
+
 > **PowerShell says "running scripts is disabled on this system"?** Run this once, then try again:
 > ```powershell
 > Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
@@ -200,13 +218,50 @@ Leave this terminal running.
 
 ## Step 5: Run the frontend
 
-Open a **second** terminal in the `Project-movie/` folder. These commands are the same on macOS, Linux and Windows:
+Open a **second** terminal in the `Project-movie/` folder. You do not need the Python venv here. The frontend only uses Node.
+
+### macOS / Linux
 
 ```bash
 cd client
 npm install       # first time only
 npm run dev
 ```
+
+### Windows: Command Prompt (cmd)
+
+```bat
+cd client
+:: first time only
+npm install
+npm run dev
+```
+
+### Windows: PowerShell
+
+```powershell
+cd client
+# first time only
+npm install
+npm run dev
+```
+
+> **PowerShell says "npm.ps1 cannot be loaded because running scripts is disabled"?** Run this once, then try again:
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+> ```
+
+### Windows: Git Bash
+
+```bash
+cd client
+npm install       # first time only
+npm run dev
+```
+
+> **`'vite' is not recognized` / `vite: command not found`?** You skipped `npm install`, or it failed. Run `npm install` inside `client/` again.
+
+> **`npm` is not recognized?** Node.js is not installed, or the terminal was opened before you installed it. Install Node.js, then close and reopen the terminal.
 
 You will see:
 
@@ -288,10 +343,15 @@ Another server is already running on port 8005. Stop it:
   ```bash
   lsof -ti :8005 | xargs kill
   ```
-- **Windows**
+- **Windows (cmd / PowerShell)**
   ```bat
   netstat -ano | findstr :8005
   taskkill /PID <the_number_in_the_last_column> /F
+  ```
+- **Windows (Git Bash)**: use double slashes (`//PID`). With a single slash, Git Bash turns `/PID` into a file path.
+  ```bash
+  netstat -ano | grep :8005
+  taskkill //PID <the_number_in_the_last_column> //F
   ```
 
 ### CORS errors in the browser console, or API calls fail
